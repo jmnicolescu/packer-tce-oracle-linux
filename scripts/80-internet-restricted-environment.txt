@@ -1,0 +1,187 @@
+
+# ------------------------------------------------------------------------------------
+#  Deploying Tanzu Kubernetes Grid management clusters and Tanzu Kubernetes (workload)
+#  in an Internet-Restricted Environment
+#
+#  juliusn - Wed Feb 16 07:08:46 EST 2022 - first version
+# ------------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------------
+# 1. Deploy local Harbor registry and create new  Harbor -> Projects
+# ------------------------------------------------------------------------------------
+
+export HARBOR_REGISTRY=harbor.flexlab.local
+
+export PROJECT_TEST="julius"
+export PROJECT_TCE="tce010rc2"
+export PROJECT_TKG="tkg140"
+
+# ------------------------------------------------------------------------------------
+# 2. Download gen-publish-images.sh
+# ------------------------------------------------------------------------------------
+
+#
+# Download gen-publish-images.sh from the following link:
+# https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/1.4/vmware-tanzu-kubernetes-grid-14/GUID-mgmt-clusters-airgapped-environments.html
+# 
+
+# ------------------------------------------------------------------------------------
+# 3. Harbor Registry checks
+# ------------------------------------------------------------------------------------
+
+# - check 1: login to both dockerhub and the local Harbor Registry
+# - check 2: copy an image from dockerbub to the local registry
+
+docker login
+docker pull jmnicolescu/assembly-webapp:latest
+docker image list
+
+docker login  https://${HARBOR_REGISTRY}
+docker tag jmnicolescu/assembly-webapp:latest ${HARBOR_REGISTRY}/${PROJECT_TEST}/assembly-webapp:latest
+docker push ${HARBOR_REGISTRY}/${PROJECT_TEST}/assembly-webapp:latest
+
+docker rmi jmnicolescu/assembly-webapp:latest
+docker rmi ${HARBOR_REGISTRY}/${PROJECT_TEST}/assembly-webapp
+docker image list
+
+docker pull ${HARBOR_REGISTRY}/${PROJECT_TEST}/assembly-webapp
+docker image list
+
+## ------------------------------------------------------------------------------------
+## Copy BOM and compatibility file
+## ------------------------------------------------------------------------------------
+
+Downloading TKG compatibility file from 'projects.registry.vmware.com/tkg/tkg-compatibility'
+Downloading the TKG Bill of Materials (BOM) file from 'projects.registry.vmware.com/tkg/tkg-bom:v1.4.1'
+Downloading the TKr Bill of Materials (BOM) file from 'projects.registry.vmware.com/tkg/tkr-bom:v1.21.2_vmware.1-tkg.2'
+
+
+
+# ------------------------------------------------------------------------------------
+# 4. Prepare the Internet-Restricted Environment
+#    Requires Bill of Materials --  ~/.config/tanzu/tkg/bom
+# ------------------------------------------------------------------------------------
+
+## Create Harbor -> Project: tkg141  (Public)
+
+# Set the local registry environment
+export HARBOR_REGISTRY=harbor.flexlab.local
+export PROJECT_TKG="tkg140"
+export TKG_CUSTOM_IMAGE_REPOSITORY="${HARBOR_REGISTRY}/${PROJECT_TKG}"
+export TKG_CUSTOM_IMAGE_REPOSITORY_SKIP_TLS_VERIFY="true"
+export TKG_CUSTOM_IMAGE_REPOSITORY_CA_CERTIFICATE=`cat /etc/docker/certs.d/${HARBOR_REGISTRY}/harbor_ca.cert | base64 -w 0`
+export TKG_IMAGE_REPO="projects.registry.vmware.com/tkg"
+
+# ------------------------------------------------------------------------------------
+# 5. Modify overlay files as follows to add the registry into the /etc/hosts files of the TKr Controller
+# ------------------------------------------------------------------------------------
+
+# vsphere-overlay.yaml
+# Edit .config/tanzu/tkg/providers/infrastructure-vsphere/ytt/vsphere-overlay.yaml
+
+cat << EOF > ${HOME}/.config/tanzu/tkg/providers/infrastructure-vsphere/ytt/vsphere-overlay.yaml
+#@ load("@ytt:overlay", "overlay")
+#@overlay/match by=overlay.subset({"kind":"KubeadmControlPlane"})
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1alpha3
+kind: KubeadmControlPlane
+spec:
+  kubeadmConfigSpec:
+    preKubeadmCommands:
+    #! Add nameserver to all k8s nodes
+    #@overlay/append
+    - echo "10.8.41.116  harbor-tcetkg.snd.cm.spr.bz"  >> /etc/hosts
+#@overlay/match by=overlay.subset({"kind":"KubeadmConfigTemplate"})
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha3
+kind: KubeadmConfigTemplate
+spec:
+  template:
+    spec:
+      preKubeadmCommands:
+      #! Add nameserver to all k8s nodes
+      #@overlay/append
+      - echo "10.8.41.116  harbor-tcetkg.snd.cm.spr.bz" >> /etc/hosts
+EOF
+
+# tkr_overlay.lib.yaml
+# Edit ${HOME}/.config/tanzu/tkg/providers/ytt/03_customizations/01_tkr/tkr_overlay.lib.yaml
+
+# Add the following into the spec.template.spec section, before the containers block and at the same indent level
+#@overlay/match missing_ok=True
+hostAliases:
+- ip: 10.8.41.116
+  hostnames:
+  - harbor-tcetkg.snd.cm.spr.bz
+
+# Backup TKr Controller files
+cp ${HOME}/.config/tanzu/tkg/providers/ytt/03_customizations/01_tkr/tkr_overlay.lib.yaml ${HOME}/tce
+cp ${HOME}/.config/tanzu/tkg/providers/infrastructure-vsphere/ytt/vsphere-overlay.yaml ${HOME}/tce
+
+# ------------------------------------------------------------------------------------
+# 6. Pull the required images from the public registry and push them to Harbor registry.
+# ------------------------------------------------------------------------------------
+
+cd ${HOME}/tce
+chmod +x gen-publish-images.sh
+./gen-publish-images.sh > publish-images.sh
+
+chmod +x publish-images.sh
+docker login ${TKG_CUSTOM_IMAGE_REPOSITORY}
+./publish-images.sh
+
+## To avoid script exits due to - The file you are trying to download has been blocked in accordance with company policy regarding viruses and spyware. 
+## Pull and publish the images one at the time
+
+cd ${HOME}/tce
+rm -f import_file
+fgrep imgpkg  publish-images.sh > import_file
+index=0; while IFS= read -r line; do sleep 1; ((index=index+1)); echo "========[ $index ]========"; $line; done < ./import_file
+
+
+## ------------------------------------------------------------------------------------
+## SSH into TCE/TKG nodes [ using capv user and the private SSH key ]
+## ------------------------------------------------------------------------------------
+
+ssh -i ~/.ssh/id_rsa capv@10.8.41.129
+sudo su -
+cp /home/capv/.ssh/authorized_keys /root/.ssh/authorized_keys
+sed -i "s/PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
+systemctl restart sshd.service
+
+ssh -i ~/.ssh/id_rsa capv@10.8.41.124
+sudo su -
+cp /home/capv/.ssh/authorized_keys /root/.ssh/authorized_keys
+sed -i "s/PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
+systemctl restart sshd.service
+
+sudo cp -r /root/certs /home/tkg
+
+scp -i ~/.ssh/id_rsa /home/tkg/certs/*.crt root@10.8.41.129:/etc/pki/tls/certs
+ssh -i ~/.ssh/id_rsa root@10.8.41.129 "cat /etc/pki/tls/certs/cert_*.crt >> /etc/pki/tls/certs/ca-bundle.crt"
+ssh -i ~/.ssh/id_rsa root@10.8.41.129 "curl https://www.google.com"
+ssh -i ~/.ssh/id_rsa root@10.8.41.129 "crictl pull busybox"
+ssh -i ~/.ssh/id_rsa root@10.8.41.129 "crictl pull harbor-tcetkg.snd.cm.spr.bz/julius/assembly-webapp:latest"
+
+scp -i ~/.ssh/id_rsa /home/tkg/certs/*.crt root@10.8.41.122:/etc/pki/tls/certs
+ssh -i ~/.ssh/id_rsa root@10.8.41.122 "cat /etc/pki/tls/certs/cert_*.crt >> /etc/pki/tls/certs/ca-bundle.crt"
+ssh -i ~/.ssh/id_rsa root@10.8.41.122 "curl https://www.google.com"
+ssh -i ~/.ssh/id_rsa root@10.8.41.122 "crictl pull busybox"
+ssh -i ~/.ssh/id_rsa root@10.8.41.122 "crictl pull harbor-tcetkg.snd.cm.spr.bz/julius/assembly-webapp:latest"
+
+
+ssh -i ~/.ssh/id_rsa capv@10.8.41.122
+
+
+# Troubleshooting notes
+kubectl get po,deploy,cluster,kubeadmcontrolplane,machine,machinedeployment -A --kubeconfig /home/tkg/.kube-tkg/tmp/config_NrppLgFw
+kubectl get kubeadmcontrolplane,machine,machinedeployment -A --kubeconfig /home/tkg/.kube-tkg/tmp/config_NrppLgFw
+kubectl logs deployment.apps/<deployment-name> -n <deployment-namespace> manager --kubeconfig /home/tkg/.kube-tkg/tmp/config_NrppLgFw
+kubectl -n kube-system get events
+
+# Final checks
+export KUBECONFIG=${HOME}/.kube/config-tkg-management
+tanzu management-cluster kubeconfig get --admin
+kubectl config use-context tkg-management-admin@tkg-management
+tanzu cluster list --include-management-cluster
+kubectl get kubeadmcontrolplane,machine,machinedeployment -A
