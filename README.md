@@ -65,6 +65,8 @@
 
 #### Directory structure
 
+```
+
 ├── http_directory                                        <-- kickstart file location
 │   └── oracle-linux
 │       └── ol7-kickstart.cfg
@@ -75,6 +77,8 @@
 │   ├── photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
 │ 
 └── scripts                                               <-- custom install scripts
+
+```
 
 ## 1. Building the Linux VM 
 
