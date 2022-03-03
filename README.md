@@ -1,6 +1,7 @@
 
-## Tanzu Community Edition - automated deployment to VMware vSphere or Docker
-## Build Platform - Oracle Linux R7
+#### Tanzu Community Edition - automated deployment to VMware vSphere or Docker
+
+#### Build Platform - Oracle Linux R7
 
 #### Summary
 
