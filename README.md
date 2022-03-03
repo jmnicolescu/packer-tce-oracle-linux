@@ -115,16 +115,21 @@ In addition, we'll need to edit Packer Variable definition file [ol7.pkrvars.hcl
 
 To deploy the custom Oracle Linux R7 VM to VMware Fusion run the following command:
 
-```packer build -var-file=ol7.pkrvars.hcl ol7-fusion.pkr.hcl
+```bash
+packer build -var-file=ol7.pkrvars.hcl ol7-fusion.pkr.hcl
 ```
 
 #### VM Deployment Option #2 - Deployment to an ESXi host
 
-```
-  # To allow packer to work with the ESXi host - enable “Guest IP Hack”
-  esxcli system settings advanced set -o /Net/GuestIPHack -i 1
+To allow packer to work with the ESXi host - enable “Guest IP Hack”
 
-  # To deploy the custom Oracle Linux R7 VM to an ESXi host run:
+```bash
+  esxcli system settings advanced set -o /Net/GuestIPHack -i 1
+```
+
+To deploy the custom Oracle Linux R7 VM to an ESXi host run the following command:
+
+```bash
   packer build -var-file=ol7.pkrvars.hcl ol7-esxi.pkr.hcl
 ```
 
