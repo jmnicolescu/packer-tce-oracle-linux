@@ -69,7 +69,7 @@ Tanzu Community Edition deployment options:
   └── scripts                                               <-- custom install scripts
 ```
 
-#### Software Requirements
+#### Software Requirements:
 
 1. ISO: OracleLinux-R7-U9-Server-x86_64-dvd.iso
     - [Download Oracle Linux R7 Installation Media](https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso)
@@ -94,28 +94,28 @@ The following environment variables are required by the Packer build script:
 We'll manage all the above environment variables with GPG and PASS.
 PASS is the standard unix password manager. Please refer to [Manage Passwords With GPG and PASS](README-PASS.md) for addition info about setting up PASS.
 
-Step #1: Insert the variables in the password store
-- pass insert provider_vcenter_hostname
-- pass insert provider_vsphere_user
-- pass insert provider_vsphere_password
-- pass insert vm_access_username
-- pass insert vm_access_password
+1. Insert the variables in the password store
+  - pass insert provider_vcenter_hostname
+  - pass insert provider_vsphere_user
+  - pass insert provider_vsphere_password
+  - pass insert vm_access_username
+  - pass insert vm_access_password
 
-Step #2: Read the secrets from pass and set them as environment variables
-- export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
-- export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
-- export PKR_VAR_vcenter_password=$(pass provider_vcenter_password)
-- export PKR_VAR_vm_access_username=$(pass vm_access_username)
-- export PKR_VAR_vm_access_password=$(pass vm_access_password)
+2. Read the secrets from pass and set them as environment variables
+  - export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
+  - export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
+  - export PKR_VAR_vcenter_password=$(pass provider_vcenter_password)
+  - export PKR_VAR_vm_access_username=$(pass vm_access_username)
+  - export PKR_VAR_vm_access_password=$(pass vm_access_password)
 
 In addition, we'll need to edit Packer Variable definition file [ol7.pkrvars.hcl](ol7.pkrvars.hcl)  to set the rest of vCenter variables required for the build.
 
 
 #### VM Deployment Option #1 - Deployment to VMware Fusion
 
-```
-  # To deploy the custom Oracle Linux R7 VM to VMware Fusion run:
-  packer build -var-file=ol7.pkrvars.hcl ol7-fusion.pkr.hcl
+To deploy the custom Oracle Linux R7 VM to VMware Fusion run the following command:
+
+```packer build -var-file=ol7.pkrvars.hcl ol7-fusion.pkr.hcl
 ```
 
 #### VM Deployment Option #2 - Deployment to an ESXi host
