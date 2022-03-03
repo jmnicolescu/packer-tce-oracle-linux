@@ -44,7 +44,7 @@ Tanzu Community Edition deployment options:
     https://github.com/vmware-tanzu/tanzu-framework/issues
 
 
-#### Tanzu Community Edition component versions used in this project
+#### Tanzu Community Edition component versions:
 
 
 1. Tanzu Community Edition    v0.10.0-rc.2
@@ -52,7 +52,7 @@ Tanzu Community Edition deployment options:
 3. Kubernetes Node OS OVA     photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
 
 
-#### Directory structure
+#### Directory structure:
 
 ```
 [packer-tce-oracle-linux]
@@ -71,17 +71,14 @@ Tanzu Community Edition deployment options:
 
 #### Software Requirements
 
-```
-   1. ISO: OracleLinux-R7-U9-Server-x86_64-dvd.iso
-      Download Oracle Linux R7 Installation Media from https://yum.oracle.com/oracle-linux-isos.html
-      https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso
-      Copy OracleLinux-R7-U9-Server-x86_64-dvd.iso to the iso directory.
+1. ISO: OracleLinux-R7-U9-Server-x86_64-dvd.iso
+    - [Download Oracle Linux R7 Installation Media from https://yum.oracle.com/oracle-linux-isos.html](https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso)
+    - Copy OracleLinux-R7-U9-Server-x86_64-dvd.iso to the iso directory.
 
-   2. OVA: photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
-      Download Kubernetes node OS OVA from VMware Customer Connect
-      https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-090
-      Copy photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova to the ova directory
-```
+2. OVA: photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
+    - [Download Kubernetes node OS OVA from VMware Customer Connect](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-090)
+    - Copy photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova to the ova directory
+
 
 ## 1. Building the custom Linux VM 
 
