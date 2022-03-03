@@ -1,5 +1,5 @@
 
-#### Tanzu Community Edition - automated deployment to VMware vSphere or Docker
+#### Tanzu Community Edition - An automated deployment to VMware vSphere or Docker
 
 #### Build Platform - Oracle Linux R7
 
@@ -7,14 +7,15 @@
 
 
    Create a custom environment that pre-bundles all required dependencies to automate the deployment of Tanzu Community Edition clusters running on either VMware vSphere or Docker.
-
+   
+```
    There two steps involved in deploying Tanzu Community Edition
 
    Step 1. Deploy a custom Oracle Linux VM using Packer to a target environment of choice. 
            Choices include Vmware Fusion, Oracle VirtualBox, VMware ESXi or VMware vCenter.
 
    Step 2. Login to the custom Linux VM and deploy Tanzu Community Edition clusters.
-
+```
 
 #### Features:
 
