@@ -19,9 +19,9 @@ There two steps involved in deploying Tanzu Community Edition
 
 Tanzu Community Edition deployment options:
 
-- #1 - TCE Deployment to Docker
-- - Deploy TCE Management Cluster to Docker as the target infrastructure provider 
-- - Deploy TCE Workload Cluster
+- Deployment #1 - TCE Deployment to Docker
+    - Deploy TCE Management Cluster to Docker as the target infrastructure provider 
+    - Deploy TCE Workload Cluster
 
 - #2 - TCE Deployment to vSphere 
 - - Deploy TCE Management Cluster to vSphere as the target infrastructure provider 
