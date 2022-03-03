@@ -5,41 +5,35 @@
 
 #### Summary
 
+Create a custom environment that pre-bundles all required dependencies to automate the deployment of Tanzu Community Edition clusters running on either VMware vSphere or Docker.
 
-   Create a custom environment that pre-bundles all required dependencies to automate the deployment of Tanzu Community Edition clusters running on either VMware vSphere or Docker.
-   
-```
-   There two steps involved in deploying Tanzu Community Edition
+There two steps involved in deploying Tanzu Community Edition
 
-   Step 1. Deploy a custom Oracle Linux VM using Packer to a target environment of choice. 
+- Step 1. Deploy a custom Oracle Linux VM using Packer to a target environment of choice. 
            Choices include Vmware Fusion, Oracle VirtualBox, VMware ESXi or VMware vCenter.
 
-   Step 2. Login to the custom Linux VM and deploy Tanzu Community Edition clusters.
-```
+- Step 2. Login to the custom Linux VM and deploy Tanzu Community Edition clusters.
+
 
 #### Features:
 
-```
-    Tanzu Community Edition deployment options:
+Tanzu Community Edition deployment options:
 
-    #1 - TCE Deployment to Docker
+- #1 - TCE Deployment to Docker
+- - Deploy TCE Management Cluster to Docker as the target infrastructure provider 
+- - Deploy TCE Workload Cluster
 
-      Deploy TCE Management Cluster to Docker as the target infrastructure provider 
-      Deploy TCE Workload Cluster
+- #2 - TCE Deployment to vSphere 
+- - Deploy TCE Management Cluster to vSphere as the target infrastructure provider 
+- - Deploy TCE Workload Cluster
 
-    #2 - TCE Deployment to vSphere 
-   
-      Deploy TCE Management Cluster to vSphere as the target infrastructure provider 
-      Deploy TCE Workload Cluster
+- #3 - TCE Deployment to vSphere while using NSX Advanced Load Balancer (NSX ALB)
+- - Deploy TCE Management Cluster to vSphere as the target infrastructure provider
+- - Deploy TCE Workload Cluster
 
-    #3 - TCE Deployment to vSphere while using NSX Advanced Load Balancer (NSX ALB)
+- Deploy sample demo applications including Metallb Load Balancer, Fluent Bit and Kubernetes Dashboard.
+- Easily access and debug TCE Clusters using Octant
 
-      Deploy TCE Management Cluster to vSphere as the target infrastructure provider
-      Deploy TCE Workload Cluster
-
-    Deploy sample demo applications including Metallb Load Balancer, Fluent Bit and Kubernetes Dashboard.
-    Easily access and debug TCE Clusters using Octant
-```
 
 #### References:
 
