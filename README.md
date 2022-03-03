@@ -72,47 +72,44 @@ Tanzu Community Edition deployment options:
 #### Software Requirements
 
 1. ISO: OracleLinux-R7-U9-Server-x86_64-dvd.iso
-    - [Download Oracle Linux R7 Installation Media from https://yum.oracle.com/oracle-linux-isos.html](https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso)
+    - [Download Oracle Linux R7 Installation Media](https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso)
     - Copy OracleLinux-R7-U9-Server-x86_64-dvd.iso to the iso directory.
 
 2. OVA: photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
-    - [Download Kubernetes node OS OVA from VMware Customer Connect](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-090)
+    - [Download Kubernetes node OS OVA](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-090)
     - Copy photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova to the ova directory
 
 
-## 1. Building the custom Linux VM 
+#### Building the custom Linux VM 
 
-```
-  Step #1 - Set Packer build environment
+Before initiating the build you'll need to set Packer build environment:
 
-  Before initiating the build you'll need to set Packer build environment:
-
-  The following environment variables are required by the Packer build script:
+The following environment variables are required by the Packer build script:
   1. PKR_VAR_vcenter_hostname       <-- vCenter host name
   2. PKR_VAR_vcenter_username       <-- vCenter user
   3. PKR_VAR_vcenter_password       <-- vCenter password
   4. PKR_VAR_vm_access_username     <-- user to SSH to the custom VM
   5. PKR_VAR_vm_access_password     <-- password for the SSH user
 
-  We'll manage all the above environment variables with GPG and PASS.
-  PASS is the standard unix password manager. Please refer to [Manage Passwords With GPG and PASS](README-PASS.md) for addition info about setting up PASS.
+We'll manage all the above environment variables with GPG and PASS.
+PASS is the standard unix password manager. Please refer to [Manage Passwords With GPG and PASS](README-PASS.md) for addition info about setting up PASS.
 
-  Step #1: Insert the variables in the password store
-      pass insert provider_vcenter_hostname
-      pass insert provider_vsphere_user
-      pass insert provider_vsphere_password
-      pass insert vm_access_username
-      pass insert vm_access_password
+Step #1: Insert the variables in the password store
+- pass insert provider_vcenter_hostname
+- pass insert provider_vsphere_user
+- pass insert provider_vsphere_password
+- pass insert vm_access_username
+- pass insert vm_access_password
 
-  Step #2: Read the secrets from pass and set them as environment variables
-      export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
-      export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
-      export PKR_VAR_vcenter_password=$(pass provider_vcenter_password)
-      export PKR_VAR_vm_access_username=$(pass vm_access_username)
-      export PKR_VAR_vm_access_password=$(pass vm_access_password)
+Step #2: Read the secrets from pass and set them as environment variables
+- export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
+- export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
+- export PKR_VAR_vcenter_password=$(pass provider_vcenter_password)
+- export PKR_VAR_vm_access_username=$(pass vm_access_username)
+- export PKR_VAR_vm_access_password=$(pass vm_access_password)
 
-  Step #2 - Edit Packer Variable definition file [ ol7.pkrvars.hcl ]  to set the rest of vCenter variables required for the build.
-```
+In addition, we'll need to edit Packer Variable definition file [ol7.pkrvars.hcl](ol7.pkrvars.hcl)  to set the rest of vCenter variables required for the build.
+
 
 #### VM Deployment Option #1 - Deployment to VMware Fusion
 
