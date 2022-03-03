@@ -10,7 +10,7 @@ Create a custom environment that pre-bundles all required dependencies to automa
 There two steps involved in deploying Tanzu Community Edition
 
 - Step 1. Deploy a custom Oracle Linux VM using Packer to a target environment of choice. 
-           Choices include Vmware Fusion, Oracle VirtualBox, VMware ESXi or VMware vCenter.
+          Choices include Vmware Fusion, Oracle VirtualBox, VMware ESXi or VMware vCenter.
 
 - Step 2. Login to the custom Linux VM and deploy Tanzu Community Edition clusters.
 
@@ -23,13 +23,13 @@ Tanzu Community Edition deployment options:
     - Deploy TCE Management Cluster to Docker as the target infrastructure provider 
     - Deploy TCE Workload Cluster
 
-- #2 - TCE Deployment to vSphere 
-- - Deploy TCE Management Cluster to vSphere as the target infrastructure provider 
-- - Deploy TCE Workload Cluster
+- Deployment #2 - TCE Deployment to vSphere 
+    - Deploy TCE Management Cluster to vSphere as the target infrastructure provider 
+    - Deploy TCE Workload Cluster
 
-- #3 - TCE Deployment to vSphere while using NSX Advanced Load Balancer (NSX ALB)
-- - Deploy TCE Management Cluster to vSphere as the target infrastructure provider
-- - Deploy TCE Workload Cluster
+- Deployment #3 - TCE Deployment to vSphere while using NSX Advanced Load Balancer (NSX ALB)
+    - Deploy TCE Management Cluster to vSphere as the target infrastructure provider
+    - Deploy TCE Workload Cluster
 
 - Deploy sample demo applications including Metallb Load Balancer, Fluent Bit and Kubernetes Dashboard.
 - Easily access and debug TCE Clusters using Octant
@@ -37,21 +37,20 @@ Tanzu Community Edition deployment options:
 
 #### References:
 
-```
-    TCE documentation
+- TCE documentation
     https://tanzucommunityedition.io/docs/latest/
     
-    TCE troubleshooting pages:
+- TCE troubleshooting pages:
     https://github.com/vmware-tanzu/tanzu-framework/issues
-```
+
 
 #### Tanzu Community Edition component versions used in this project
 
-```
-   1. Tanzu Community Edition    v0.10.0-rc.2
-   2. kubectl                    v1.21.2
-   3. Kubernetes Node OS OVA     photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
-```
+
+1. Tanzu Community Edition    v0.10.0-rc.2
+2. kubectl                    v1.21.2
+3. Kubernetes Node OS OVA     photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
+
 
 #### Directory structure
 
