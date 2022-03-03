@@ -10,10 +10,10 @@
 
    There two steps involved in deploying Tanzu Community Edition
 
-   #1 Deploy a custom Oracle Linux VM using Packer to a target environment of choice. 
-      Choices include Vmware Fusion, Oracle VirtualBox, VMware ESXi or VMware vCenter.
+   Step 1. Deploy a custom Oracle Linux VM using Packer to a target environment of choice. 
+           Choices include Vmware Fusion, Oracle VirtualBox, VMware ESXi or VMware vCenter.
 
-   #2 Login to the custom Linux VM and deploy Tanzu Community Edition clusters.
+   Step 2. Login to the custom Linux VM and deploy Tanzu Community Edition clusters.
 
 
 #### Features:
