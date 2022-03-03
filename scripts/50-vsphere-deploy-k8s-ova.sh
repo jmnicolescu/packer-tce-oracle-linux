@@ -33,7 +33,7 @@ echo "#--------------------------------------------------------------"
 echo $$ > ${HOME}/scripts/.index
 unset VSPHERE_FOLDER
 unset VSPHERE_RESOURCE_POOL
-source ${HOME}/scripts/00-tkg-build-variables.sh
+source ${HOME}/scripts/00-tce-build-variables.sh
 
 export GOVC_URL="https://$(pass provider_vcenter_hostname)"
 export GOVC_USERNAME=$(pass provider_vcenter_username)

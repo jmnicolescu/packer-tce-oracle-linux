@@ -1,34 +1,42 @@
 
-## Automate Tanzu Community Edition deployment to VMware vSphere or Docker using a custom VM running Oracle Linux R7
+## Tanzu Community Edition - automated deployment to VMware vSphere or Docker
+## Build Platform - Oracle Linux R7
 
-
-#### Build features:
+#### Summary
 
 ```
-   Linux VM deployment options:
-   Multiple deployment options: Vmware Fusion, Oracle VirtualBox, VMware ESXi, VMware vCenter.
-   Build and deploy a custom Oracle Linux R7 VM to a target environment of choice.
+   Create a custom environment that pre-bundles all required dependencies to automate the deployment of Tanzu Community Edition clusters running on either VMware vSphere or Docker.
 
-   Tanzu Community Edition deployment options:
-   Deploy a Management Cluster to Docker as the target infrastructure provider 
-   Deploy a Workload Cluster
+   There two steps involved in deploying Tanzu Community Edition
 
-   Deploy a Management Cluster to vSphere as the target infrastructure provider 
-   Deploy a Workload Cluster
+   #1 Deploy a custom Oracle Linux VM using Packer to a target environment of choice. 
+      Choices include Vmware Fusion, Oracle VirtualBox, VMware ESXi or VMware vCenter.
 
-   Deploy a Management Cluster to vSphere as the target infrastructure provider using NSX Advanced Load Balancer (NSX ALB)
-   Deploy a Workload Cluster
+   #2 Login to the custom Linux VM and deploy Tanzu Community Edition clusters.
+```
 
-   Deploy Demo Apps, Fluent Bit and Kubernetes Dashboard
+#### Features:
 
-   TCE settings for deployment to Docker:
-   Management Cluster Settings - Development - A management cluster with a single control plane node.
-   Workload Cluster Settings   - Development - A workload cluster with a single worker node.
+```
+    Tanzu Community Edition deployment options:
 
-   TCE settings for deployment to VMware vSphere:
-   Management Cluster Settings - Development - A management cluster with a single control plane node.
-   Workload Cluster Settings   - Production - A workload cluster with three worker nodes.
+    #1 - TCE Deployment to Docker
 
+      Deploy TCE Management Cluster to Docker as the target infrastructure provider 
+      Deploy TCE Workload Cluster
+
+    #2 - TCE Deployment to vSphere 
+   
+      Deploy TCE Management Cluster to vSphere as the target infrastructure provider 
+      Deploy TCE Workload Cluster
+
+    #3 - TCE Deployment to vSphere while using NSX Advanced Load Balancer (NSX ALB)
+
+      Deploy TCE Management Cluster to vSphere as the target infrastructure provider
+      Deploy TCE Workload Cluster
+
+    Deploy sample demo applications including Metallb Load Balancer, Fluent Bit and Kubernetes Dashboard.
+    Easily access and debug TCE Clusters using Octant
 ```
 
 #### References:
@@ -49,6 +57,23 @@
    3. Kubernetes Node OS OVA     photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
 ```
 
+#### Directory structure
+
+```
+[packer-tce-oracle-linux]
+  │ 
+  ├── http_directory                                        <-- kickstart file location
+  │   └── oracle-linux
+  │       └── ol7-kickstart.cfg
+  ├── iso                                                   <-- Oracle Linux ISO file
+  │   └── OracleLinux-R7-U9-Server-x86_64-dvd.iso
+  ├── ova                                                   <-- OVA files location
+  │   ├── controller-21.1.2-9124.ova 
+  │   ├── photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
+  │ 
+  └── scripts                                               <-- custom install scripts
+```
+
 #### Software Requirements
 
 ```
@@ -63,47 +88,38 @@
       Copy photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova to the ova directory
 ```
 
-#### Directory structure
+## 1. Building the custom Linux VM 
 
 ```
+  Step #1 - Set Packer build environment
 
-├── http_directory                                        <-- kickstart file location
-│   └── oracle-linux
-│       └── ol7-kickstart.cfg
-├── iso                                                   <-- Oracle Linux ISO file
-│   └── OracleLinux-R7-U9-Server-x86_64-dvd.iso
-├── ova                                                   <-- OVA files location
-│   ├── controller-21.1.2-9124.ova 
-│   ├── photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
-│ 
-└── scripts                                               <-- custom install scripts
+  Before initiating the build you'll need to set Packer build environment:
 
-```
+  The following environment variables are required by the Packer build script:
+  1. PKR_VAR_vcenter_hostname       <-- vCenter host name
+  2. PKR_VAR_vcenter_username       <-- vCenter user
+  3. PKR_VAR_vcenter_password       <-- vCenter password
+  4. PKR_VAR_vm_access_username     <-- user to SSH to the custom VM
+  5. PKR_VAR_vm_access_password     <-- password for the SSH user
 
-## 1. Building the Linux VM 
+  We'll manage all the above environment variables with GPG and PASS.
+  PASS is the standard unix password manager. Please refer to [Manage Passwords With GPG and PASS](README-PASS.md) for addition info about setting up PASS.
 
-```
-  Setting the Packer build environment:
+  Step #1: Insert the variables in the password store
+      pass insert provider_vcenter_hostname
+      pass insert provider_vsphere_user
+      pass insert provider_vsphere_password
+      pass insert vm_access_username
+      pass insert vm_access_password
 
-  # Insert the vCenter host name in the password store
-  pass insert provider_vcenter_hostname
-  # Insert the vCenter access user in the password store
-  pass insert provider_vsphere_user
-  # Insert the password vCenter user in the password store
-  pass insert provider_vsphere_password
-  # Insert the VM ssh user access in the password store
-  pass insert vm_access_username
-  # Insert the passord for the VM ssh user access in the password store
-  pass insert vm_access_password
+  Step #2: Read the secrets from pass and set them as environment variables
+      export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
+      export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
+      export PKR_VAR_vcenter_password=$(pass provider_vcenter_password)
+      export PKR_VAR_vm_access_username=$(pass vm_access_username)
+      export PKR_VAR_vm_access_password=$(pass vm_access_password)
 
-  # Read the secrets from pass and set them as environment variables
-
-  export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
-  export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
-  export PKR_VAR_vcenter_password=$(pass provider_vcenter_password)
-  export PKR_VAR_vm_access_username=$(pass vm_access_username)
-  export PKR_VAR_vm_access_password=$(pass vm_access_password)
-
+  Step #2 - Edit Packer Variable definition file [ ol7.pkrvars.hcl ]  to set the rest of vCenter variables required for the build.
 ```
 
 #### VM Deployment Option #1 - Deployment to VMware Fusion
@@ -142,12 +158,13 @@
 Setting the TCE build environment:
 
 With the exception of vCenter credentials, all TCE Build Variable are set in 00-tce-build-variables.sh
-Please update 00-tce-build-variables.sh file.
+Please update [Tanzu Community Edition - Build Variable Definition](scripts/00-tce-build-variables.sh) file.
 
 #### TCE Deployment option #1 - TCE deployment to Docker
 
 ```
-  login as user tce to the Linux built VM
+  Login to the Linux built VM as user tce, chnage directory to scripts and run the following scripts:
+  
   cd scripts
 
   # Update host entry in the /etc/hosts file using the current DHCP assigned IP
@@ -156,16 +173,16 @@ Please update 00-tce-build-variables.sh file.
   # Reset Environment and Install Tanzu Community Edition
   ./33-install-tce.sh
 
-  # Deploy a Management Cluster to Docker 
+  # Run the following script to create the TCE Management Cluster 
   ./42-tce-docker-deploy-management.sh
 
-  # Deploy a Workload Cluster to Docker
+  # Run the following script to create the TCE Workload Cluster 
   ./43-tce-docker-deploy-workload.sh
 
   # Deploy Metallb Load Balancer
   ./70-demo-deploy-metallb.sh
 
-  # Deploy Demo Apps and Fluent Bit
+  # Deploy sample demo applications including Fluent Bit.
   ./71-demo-deploy-web-apps.sh
 
 ```
@@ -173,16 +190,14 @@ Please update 00-tce-build-variables.sh file.
 #### TCE Deployment option #2 - TCE deployment to VMware vSphere
 
 ```
-  login as user tce to the Linux built VM
+  Login to the Linux built VM as user tce, chnage directory to scripts and run the following scripts:
+  
   cd scripts
- 
-  # Update vSphere credentials
 
-  # Insert the user provider_vsphere_user in the password store
-  pass insert provider_vsphere_user
-
-  # Insert the password for provider_vsphere_password in the password store
-  pass insert provider_vsphere_password
+  # Insert the vCenter host name and user credentials into the password store
+  pass insert provider_vcenter_hostname
+  pass insert provider_vcenter_username
+  pass insert provider_vcenter_password
 
   # Update host entry in the /etc/hosts file using the current DHCP assigned IP
   sudo ./30-update-etc-hosts.sh
@@ -202,27 +217,25 @@ Please update 00-tce-build-variables.sh file.
   # Deploy Metallb Load Balancer
   ./70-demo-deploy-metallb.sh
 
-  # Deploy Demo Apps and Fluent Bit
+  # Deploy sample demo applications including Fluent Bit
   ./71-demo-deploy-web-apps.sh
 
   # Deploy Kubernetes Dashboard
-  ./72-demo-deploy-k8s-dashboard
+  ./72-demo-deploy-k8s-dashboard.sh
 
 ```
 
 #### TCE Depolyment option #3 - TCE deployment to VMware vSphere using NSX Advanced Load Balancer
 
 ```
-  login as user tce
+  Login to the Linux built VM as user tce, chnage directory to scripts and run the following scripts:
+  
   cd scripts
- 
-  # Update vSphere credentials
 
-  # Insert the user provider_vsphere_user in the password store
-  pass insert provider_vsphere_user
-
-  # Insert the password for provider_vsphere_password in the password store
-  pass insert provider_vsphere_password
+  # Insert the vCenter host name and user credentials into the password store
+  pass insert provider_vcenter_hostname
+  pass insert provider_vcenter_username
+  pass insert provider_vcenter_password
 
   # Update host entry in the /etc/hosts file using the current DHCP assigned IP
   sudo ./30-update-etc-hosts.sh
@@ -233,10 +246,11 @@ Please update 00-tce-build-variables.sh file.
   # vSphere Requirerments, Deploy Kubernetes node OS VM 
   ./50-vsphere-deploy-k8s-ova
 
-  # Deploy NSX ALB OVA
+  # Deploy NSX Advanced Load Balancer OVA
   ./60-nsx-alb-deploy-avi-ova.sh
 
-  # Configure NSX ALB - Follow README-NSX-ALB.md guide
+  # Configure NSX Advanced Load Balancer 
+  # Follow [README-NSX-ALB.md guide](README-NSX-ALB.md) to configure NSX ALB
 
   # Deploy a Management Cluster to vSphere using NSX ALB
   ./62-nsx-alb-deploy-management.sh
@@ -244,7 +258,7 @@ Please update 00-tce-build-variables.sh file.
   # Deploy a Workload Cluster to vSphere using NSX ALB
   ./63-nsx-alb-deploy-workload.sh
 
-  # Deploy Demo Apps and Fluent Bit
+  # Deploy sample demo applications including Fluent Bit
   ./71-demo-deploy-web-apps.sh
 
   # Deploy Kubernetes Dashboard
@@ -252,9 +266,9 @@ Please update 00-tce-build-variables.sh file.
 
 ```
 
-## 3. Accessing the clusters
+## 3. Accessing Tanzu Community Edition clusters
 
-#### To access the management cluster, login as tce user and run:
+#### To access TCE management cluster, login as tce user and run:
 
 ```
   export MGMT_CLUSTER_NAME="tce-management"
@@ -266,11 +280,9 @@ Please update 00-tce-build-variables.sh file.
   export MGMT_CLUSTER_NAME="tce-management"
   export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
   kubectl get nodes -A
-
-  Note: ${HOME}/.kube/config-${MGMT_CLUSTER_NAME} is created during the install
 ```
 
-#### To access the workload cluster, login as tce user and run:
+#### To access TCE workload cluster, login as tce user and run:
 
 ```
   export WKLD_CLUSTER_NAME="tce-workload"

@@ -43,6 +43,13 @@
     pass insert vm_access_password
     pass insert esx_remote_username
     pass insert esx_remote_password
+    
+    OR 
+    
+    echo 'vcenter_hostname' | pass insert provider_vcenter_hostname -e
+    echo 'vcenter_username' | pass insert provider_vcenter_username -e
+    echo 'vcenter_password' | pass insert provider_vcenter_password -e
+
 
 #### Set your environment variables - Read secrets from pass and set them as environment variables
 
