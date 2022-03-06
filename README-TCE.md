@@ -49,7 +49,7 @@ Tanzu Community Edition deployment options:
 
 1. Tanzu Community Edition    v0.10.0
 2. kubectl                    v1.21.5
-3. Kubernetes Node OS OVA     photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
+3. Kubernetes Node OS OVA     photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova
 
 
 #### Directory structure:
@@ -62,15 +62,16 @@ Tanzu Community Edition deployment options:
   │       └── ol7-kickstart.cfg
   ├── iso                                                   <-- Oracle Linux ISO file
   │   └── OracleLinux-R7-U9-Server-x86_64-dvd.iso
-  ├── ova                                                   <-- OVA files location
-  │   ├── controller-21.1.2-9124.ova 
-  │   ├── photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
-  │ 
-  ├── scripts                                               <-- custom install scripts
-  │ 
-  └─── tce                                                  <-- Tanzu Community Edition 0.10.0
-      └── tce-linux-amd64-v0.10.0.tar.gz
+  ├── ova                                                   <-- OVAs directory
+  │   ├── controller-21.1.2-9124.ova
+  │   └── photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova
+  ├── tce
+  │   └── tce-linux-amd64-v0.10.0.tar.gz                    <-- Tanzu Community Edition
+  │
+  └── tce-scripts                                           <-- Configuration scripts
+
 ```
+
 
 #### Software Requirements:
 
@@ -94,8 +95,6 @@ Note: Tanzu Community Edition, kubectl version and the matching Photon v3 Kubern
 
 2. Previous version: tce v1.9.0  -->>  kubectl v1.21.2  -->> Photon v3 Kubernetes v1.21.2 OVA (photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova)
     - [Download OVA for Tanzu Community Edition 0.9.0](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-090)
-
-
 
 
 ## 1. Building the custom Linux VM 
