@@ -14,7 +14,7 @@ echo "#--------------------------------------------------------------"
 echo "# Starting 31-download-k8s-tools.sh"
 echo "#--------------------------------------------------------------"
 
-source ${HOME}/scripts/00-tkg-build-variables.sh
+source ${HOME}/scripts/00-tce-build-variables.sh
 
 #--------------------------------------------------------------------------------------
 # Download and Install kubectl, kind, Octant and Helm 3

@@ -99,7 +99,7 @@ export NSXALB_AVI_DATA_NETWORK_CIDR="192.168.131.0/24"
 export NSXALB_AVI_MANAGEMENT_CLUSTER_VIP_NETWORK_NAME=${NETWORK_TANZU_WORKLOAD}
 export NSXALB_AVI_MANAGEMENT_CLUSTER_VIP_NETWORK_CIDR="192.168.131.0/24"
 
-# K8s node VM settings for Photon OS
+# K8s node VM settings for Photon v3 Kubernetes v1.21.5 OVA
 export OVA_VM_NAME="photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010"
 export OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova"
 export OVA_JSON_FILE="${HOME}/ova/kubernetes-node-ova-specs.json"

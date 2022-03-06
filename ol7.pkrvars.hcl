@@ -26,7 +26,7 @@
 # export PKR_VAR_esx_remote_password=$(pass esx_remote_password)
 #----------------------------------------------------------------------------------
 
-vm_name                      = "oraclelinux"
+vm_name                      = "oraclelinux-tce"
 vm_guest_os_type             = "oracleLinux7_64Guest"
 vm_guest_version             = "19"
 # vm_access_username         = # Reading PKR_VAR_vm_access_username environment variable

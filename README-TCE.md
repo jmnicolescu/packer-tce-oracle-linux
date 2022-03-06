@@ -62,11 +62,11 @@ Tanzu Community Edition deployment options:
   │       └── ol7-kickstart.cfg
   ├── iso                                                   <-- Oracle Linux ISO file
   │   └── OracleLinux-R7-U9-Server-x86_64-dvd.iso
-  ├── ova                                                   <-- OVAs directory
+  ├── ova                                                   <-- OVA directory
   │   ├── controller-21.1.2-9124.ova
   │   └── photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova
   ├── tce
-  │   └── tce-linux-amd64-v0.10.0.tar.gz                    <-- Tanzu Community Edition
+  │   └── tce-linux-amd64-v0.10.0.tar.gz                    <-- Tanzu Community Edition CLI
   │
   └── tce-scripts                                           <-- Configuration scripts
 
