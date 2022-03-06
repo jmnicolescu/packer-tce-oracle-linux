@@ -19,17 +19,19 @@ if [[ "$EUID" -eq 0 ]]; then
 fi
 
 rm -rf ${HOME}/.kube-tkg ${HOME}/.kube
-rm -rf ${HOME}/.tanzu ${HOME}/.config/tanzu  ${HOME}.cache/tanzu
+rm -rf ${HOME}/.tanzu ${HOME}/.config/tanzu  ${HOME}.cache/tanzu ${HOME}/.local/share/tanzu-cli ${HOME}/.local/share/tce
 
 #--------------------------------------------------------------------------------------
 # Install Tanzu Community Edition
 #--------------------------------------------------------------------------------------
+
 
 echo "Installing Tanzu Community Edition from ${HOME}/tce-linux-amd64-v${TCE_VERSION}"
 cd ${HOME}/tce
 tar xzvf tce-linux-amd64-v${TCE_VERSION}.tar.gz
 
 cd ${HOME}/tce/tce-linux-amd64-v${TCE_VERSION}
+sudo rm -f /usr/local/bin/tanzu
 ./uninstall.sh
 ./install.sh
 

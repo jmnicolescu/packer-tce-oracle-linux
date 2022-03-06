@@ -9,7 +9,7 @@
 # More of a sample file as the interface differes from one platform to another
 #--------------------------------------------------------------------------------------
 
-source /home/tce/scripts/00-tce-build-variables.sh
+source ${HOME}/scripts/00-tce-build-variables.sh
 
 echo "#--------------------------------------------------------------"
 echo "# Starting 30-update-etc-hosts.sh"

@@ -7,7 +7,7 @@
 # Here is a sample configuration file to set a staic IP for Oracle Linux R7
 #--------------------------------------------------------------------------------------
 
-source /home/tce/scripts/00-tce-build-variables.sh
+source ${HOME}/scripts/00-tce-build-variables.sh
 
 echo "#--------------------------------------------------------------"
 echo "# Starting 30-configure-with-static-ip.sh"
@@ -19,12 +19,12 @@ cat > /etc/sysconfig/network-scripts/ifcfg-ens192 << "EOF"
 NAME="ens192"
 DEVICE=ens192
 ONBOOT=yes
-IPADDR=${MY_STATIC_IP}
+IPADDR=192.168.111.128
 GATEWAY=192.168.111.1
 NETMASK=255.255.255.0
 DNS1=192.168.111.1
 DNS2=192.168.120.1
-DOMAIN=${MY_DOMAIN_NAME}
+DOMAIN=flexlab.local
 BOOTPROTO="static"
 PREFIX=24
 DEFROUTE=yes
@@ -35,8 +35,8 @@ EOF
 
 echo "Updating /etc/hosts file."
 sed -i '/'${SHORT_HOST}'/ d' /etc/hosts
-echo "Adding [ ${MY_IP_ADDRESS} ${SHORT_HOST}.${MY_DOMAIN_NAME} ${SHORT_HOST} ] to /etc/hosts file."
-echo "${MY_IP_ADDRESS} ${SHORT_HOST}.${MY_DOMAIN_NAME} ${SHORT_HOST}" >> /etc/hosts
+echo "Adding [ ${MY_STATIC_IP} ${SHORT_HOST}.${MY_DOMAIN_NAME} ${SHORT_HOST} ] to /etc/hosts file."
+echo "${MY_STATIC_IP} ${SHORT_HOST}.${MY_DOMAIN_NAME} ${SHORT_HOST}" >> /etc/hosts
 
 systemctl restart network
 

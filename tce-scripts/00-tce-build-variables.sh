@@ -11,9 +11,23 @@
 # juliusn - Sun Dec  5 08:48:39 EST 2021 - first version
 #--------------------------------------------------------------------------------------
 
-if test -f "${HOME}/scripts/.index";
+#--------------------------------------------------------------------------------------
+# Tanzu Community Edition - previous build versions
+# TCE_VERSION="0.9.1"
+# K8S_VERSION="1.21.2"
+# OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova"
+#--------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------
+# Tanzu Community Edition - current build versions
+# TCE_VERSION="0.10.0"
+# K8S_VERSION="1.21.5"
+# OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova"
+#--------------------------------------------------------------------------------------
+
+if test -f "${HOME}/scripts/.tce_index";
 then
-    export INDEX=`cat ${HOME}/scripts/.index`
+    export INDEX=`cat ${HOME}/scripts/.tce_index`
 else
     export INDEX=0
 fi
@@ -115,7 +129,6 @@ export NODE_OS_VERSION="3"
 
 # Obtain current IP for Oracle Linux / Ubuntu 
 export MY_IP_ADDRESS=`ifconfig ens192 | grep 'inet ' | awk '{print $2}'`
-# Optional set a static IP for the custom Linux VM
 export MY_STATIC_IP="192.168.111.128"
 export MY_DOMAIN_NAME="flexlab.local"
 
