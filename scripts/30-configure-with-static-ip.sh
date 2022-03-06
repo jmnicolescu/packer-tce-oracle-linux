@@ -1,25 +1,43 @@
 #!/bin/bash -eu
 
 #--------------------------------------------------------------------------------------
-# Update /etc/hosts file - [ 30-update-etc-hosts.sh ]
+# Oracle Linux R7 - Add static IP [ 30-configure-with-static-ip.sh ]
 # juliusn - Sun Dec  5 08:48:39 EST 2021 - first version
 #
-# Update host entry in the /etc/hosts file using the current DHCP assigned IP
-#
-# More of a sample file as the interface differes from one platform to another
+# Here is a sample configuration file to set a staic IP for Oracle Linux R7
 #--------------------------------------------------------------------------------------
 
 source /home/tce/scripts/00-tce-build-variables.sh
 
 echo "#--------------------------------------------------------------"
-echo "# Starting 30-update-etc-hosts.sh"
+echo "# Starting 30-configure-with-static-ip.sh"
 echo "#--------------------------------------------------------------"
 
 SHORT_HOST=`hostname`
+
+cat > /etc/sysconfig/network-scripts/ifcfg-ens192 << "EOF"
+NAME="ens192"
+DEVICE=ens192
+ONBOOT=yes
+IPADDR=${MY_STATIC_IP}
+GATEWAY=192.168.111.1
+NETMASK=255.255.255.0
+DNS1=192.168.111.1
+DNS2=192.168.120.1
+DOMAIN=${MY_DOMAIN_NAME}
+BOOTPROTO="static"
+PREFIX=24
+DEFROUTE=yes
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+EOF
 
 echo "Updating /etc/hosts file."
 sed -i '/'${SHORT_HOST}'/ d' /etc/hosts
 echo "Adding [ ${MY_IP_ADDRESS} ${SHORT_HOST}.${MY_DOMAIN_NAME} ${SHORT_HOST} ] to /etc/hosts file."
 echo "${MY_IP_ADDRESS} ${SHORT_HOST}.${MY_DOMAIN_NAME} ${SHORT_HOST}" >> /etc/hosts
 
-echo "Done 30-update-etc-hosts.sh"
+systemctl restart network
+
+echo "Done 30-configure-with-static-ip"

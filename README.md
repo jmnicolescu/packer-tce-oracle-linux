@@ -1,7 +1,7 @@
 
-#### Tanzu Community Edition - An automated deployment to VMware vSphere or Docker
+### Tanzu Community Edition - An automated deployment to VMware vSphere or Docker
 
-#### Build Platform - Oracle Linux R7
+### Build Platform - Oracle Linux R7
 
 #### Summary
 
@@ -82,6 +82,8 @@ Tanzu Community Edition deployment options:
 
 #### Building the custom Linux VM 
 
+Configuration file used for building the custom Linux VM: `ol7.pkrvars.hcl`
+
 Before initiating the build you'll need to set Packer build environment:
 
 The following environment variables are required by the Packer build script:
@@ -135,150 +137,182 @@ To deploy the custom Oracle Linux R7 VM to an ESXi host run the following comman
 
 #### VM Deployment Option #3 - Deployment to VMware vSphere
 
-```
-  # To deploy the custom Oracle Linux R7 VM to VMware vSphere run:
-  packer build -var-file=ol7.pkrvars.hcl ol7-vcenter.pkr.hcl
+To deploy the custom Oracle Linux R7 VM to VMware vSphere run the following command:
+
+```bash
+packer build -var-file=ol7.pkrvars.hcl ol7-vcenter.pkr.hcl
 ```
 
 #### VM Deployment Option #4 - Deployment to Oracle VirtualBox
 
-```
-  # To deploy the custom Oracle Linux R7 VirtualBox VM in the OVF format:
-  packer build -var-file=ol7.pkrvars.hcl ol7-virtualbox.pkr.hcl
+To deploy the custom Oracle Linux R7 VirtualBox VM in the OVF format run the following command:
+
+```bash
+packer build -var-file=ol7.pkrvars.hcl ol7-virtualbox.pkr.hcl
 ```
 
-## 2. TCE installation and cluster configuration
+#### TCE installation and cluster configuration
+
+Configuration file used for TCE deployment: `scripts/00-tce-build-variables.sh`
+
+Optional: For the custom Linux VM, update /etc/hosts file with the IP address obtained from DHCP server OR set a static IP.
+
+```bash
+# Update host entry in the /etc/hosts file using the current DHCP assigned IP
+ sudo ./30-update-etc-hosts.sh
+
+ OR
+
+ # Set a static IP for the custom Linux VM
+ sudo ./30-configure-with-static-ip.sh
+```
 
 Setting the TCE build environment:
 
 With the exception of vCenter credentials, all TCE Build Variable are set in 00-tce-build-variables.sh
-Please update [Tanzu Community Edition - Build Variable Definition](scripts/00-tce-build-variables.sh) file.
+Please review and update [Tanzu Community Edition - Build Variable Definition](scripts/00-tce-build-variables.sh) file.
 
 #### TCE Deployment option #1 - TCE deployment to Docker
 
-```
-  Login to the Linux built VM as user tce, chnage directory to scripts and run the following scripts:
+Login to the Linux built VM as user tce, chnage directory to scripts and run the following scripts:
   
-  cd scripts
+```bash
+cd scripts
 
-  # Update host entry in the /etc/hosts file using the current DHCP assigned IP
-  sudo ./30-update-etc-hosts.sh
+# Update host entry in the /etc/hosts file using the current DHCP assigned IP
+ sudo ./30-update-etc-hosts.sh
 
-  # Reset Environment and Install Tanzu Community Edition
-  ./33-install-tce.sh
+# Reset Environment and Install Tanzu Community Edition
+./33-install-tce.sh
 
-  # Run the following script to create the TCE Management Cluster 
-  ./42-tce-docker-deploy-management.sh
+# Run the following script to create the TCE Management Cluster 
+./42-tce-docker-deploy-management.sh
 
-  # Run the following script to create the TCE Workload Cluster 
-  ./43-tce-docker-deploy-workload.sh
+# Run the following script to create the TCE Workload Cluster 
+./43-tce-docker-deploy-workload.sh
 
-  # Deploy Metallb Load Balancer
-  ./70-demo-deploy-metallb.sh
+# Deploy Metallb Load Balancer
+./70-demo-deploy-metallb.sh
 
-  # Deploy sample demo applications including Fluent Bit.
-  ./71-demo-deploy-web-apps.sh
+# Deploy sample demo applications including Fluent Bit.
+./71-demo-deploy-web-apps.sh
 
 ```
 
 #### TCE Deployment option #2 - TCE deployment to VMware vSphere
 
-```
-  Login to the Linux built VM as user tce, chnage directory to scripts and run the following scripts:
-  
-  cd scripts
+Login to the Linux VM as user tce, chnage directory to scripts and run the following scripts:
 
-  # Insert the vCenter host name and user credentials into the password store
-  pass insert provider_vcenter_hostname
-  pass insert provider_vcenter_username
-  pass insert provider_vcenter_password
+```bash  
+cd scripts
 
-  # Update host entry in the /etc/hosts file using the current DHCP assigned IP
-  sudo ./30-update-etc-hosts.sh
+# Insert the vCenter host name and user credentials into the password store
+pass insert provider_vcenter_hostname
+pass insert provider_vcenter_username
+pass insert provider_vcenter_password
 
-  # Reset Environment and Install Tanzu Community Edition
-  ./33-install-tce.sh
+# Update host entry in the /etc/hosts file using the current DHCP assigned IP
+sudo ./30-update-etc-hosts.sh
 
-  # vSphere Requirerments, Deploy Kubernetes node OS VM 
-  ./50-vsphere-deploy-k8s-ova
+# Reset Environment and Install Tanzu Community Edition
+./33-install-tce.sh
 
-  # Deploy a Management Cluster to vSphere 
-  ./52-vsphere-deploy-management.sh
+# vSphere Requirerments, Deploy Kubernetes node OS VM 
+./50-vsphere-deploy-k8s-ova
 
-  # Deploy a Workload Cluster to vSphere
-  ./53-vsphere-deploy-workload.sh
+# Deploy a Management Cluster to vSphere 
+./52-vsphere-deploy-management.sh
 
-  # Deploy Metallb Load Balancer
-  ./70-demo-deploy-metallb.sh
+# Deploy a Workload Cluster to vSphere
+./53-vsphere-deploy-workload.sh
 
-  # Deploy sample demo applications including Fluent Bit
-  ./71-demo-deploy-web-apps.sh
+# Deploy Metallb Load Balancer
+./70-demo-deploy-metallb.sh
 
-  # Deploy Kubernetes Dashboard
-  ./72-demo-deploy-k8s-dashboard.sh
+# Deploy sample demo applications including Fluent Bit
+./71-demo-deploy-web-apps.sh
+
+# Deploy Kubernetes Dashboard
+./73-demo-deploy-k8s-dashboard.sh
 
 ```
 
 #### TCE Depolyment option #3 - TCE deployment to VMware vSphere using NSX Advanced Load Balancer
 
-```
-  Login to the Linux built VM as user tce, chnage directory to scripts and run the following scripts:
+Login to the Linux VM as user tce, chnage directory to scripts and run the following scripts:
   
-  cd scripts
+```bash  
+cd scripts
 
-  # Insert the vCenter host name and user credentials into the password store
-  pass insert provider_vcenter_hostname
-  pass insert provider_vcenter_username
-  pass insert provider_vcenter_password
+# Insert the vCenter host name and user credentials into the password store
+pass insert provider_vcenter_hostname
+pass insert provider_vcenter_username
+pass insert provider_vcenter_password
 
-  # Update host entry in the /etc/hosts file using the current DHCP assigned IP
-  sudo ./30-update-etc-hosts.sh
+# Update host entry in the /etc/hosts file using the current DHCP assigned IP
+sudo ./30-update-etc-hosts.sh
 
-  # Reset Environment and Install Tanzu Community Edition
-  ./33-install-tce.sh
+# Reset Environment and Install Tanzu Community Edition
+./33-install-tce.sh
 
-  # vSphere Requirerments, Deploy Kubernetes node OS VM 
-  ./50-vsphere-deploy-k8s-ova
+# vSphere Requirerments, Deploy Kubernetes node OS VM 
+./50-vsphere-deploy-k8s-ova
 
-  # Deploy NSX Advanced Load Balancer OVA
-  ./60-nsx-alb-deploy-avi-ova.sh
+# Deploy NSX Advanced Load Balancer OVA
+./60-nsx-alb-deploy-avi-ova.sh
 
-  # Configure NSX Advanced Load Balancer 
-  # Follow [README-NSX-ALB.md guide](README-NSX-ALB.md) to configure NSX ALB
+# Configure NSX Advanced Load Balancer 
+# Follow [README-NSX-ALB.md guide](README-NSX-ALB.md) to configure NSX ALB
 
-  # Deploy a Management Cluster to vSphere using NSX ALB
-  ./62-nsx-alb-deploy-management.sh
+# Deploy a Management Cluster to vSphere using NSX ALB
+./62-nsx-alb-deploy-management.sh
 
-  # Deploy a Workload Cluster to vSphere using NSX ALB
-  ./63-nsx-alb-deploy-workload.sh
+# Deploy a Workload Cluster to vSphere using NSX ALB
+./63-nsx-alb-deploy-workload.sh
 
-  # Deploy sample demo applications including Fluent Bit
-  ./71-demo-deploy-web-apps.sh
+# Deploy sample demo applications including Fluent Bit
+./71-demo-deploy-web-apps.sh
 
-  # Deploy Kubernetes Dashboard
-  ./72-demo-deploy-k8s-dashboard
+# Deploy Kubernetes Dashboard
+./73-demo-deploy-k8s-dashboard
 
 ```
 
-## 3. Accessing Tanzu Community Edition clusters
+## 3. Accessing Tanzu Community Edition clusters from the custom Linux VM
 
 #### To access TCE management cluster, login as tce user and run:
 
+```bash
+export MGMT_CLUSTER_NAME="tce-management"
+export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
+kubectl get nodes -A
 ```
-  export MGMT_CLUSTER_NAME="tce-management"
-  tanzu management-cluster kubeconfig get --admin
-  kubectl config use-context ${MGMT_CLUSTER_NAME}-admin@${MGMT_CLUSTER_NAME}
-  kubectl get nodes -A
+The management cluster kubeconfig file `${HOME}/.kube/config-${MGMT_CLUSTER_NAME}` is created during the install.
 
-  or just:
-  export MGMT_CLUSTER_NAME="tce-management"
-  export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
-  kubectl get nodes -A
+If you need to recapture the management cluster’s kubeconfig, execute the following commands:
+
+```bash
+export MGMT_CLUSTER_NAME="tce-management"
+export KUBECONFIG=${HOME}/.kube/config-${MGMT_CLUSTER_NAME}
+tanzu management-cluster kubeconfig get --admin
+kubectl config use-context ${MGMT_CLUSTER_NAME}-admin@${MGMT_CLUSTER_NAME}
+kubectl get nodes -A
 ```
 
 #### To access TCE workload cluster, login as tce user and run:
 
+```bash 
+  export WKLD_CLUSTER_NAME="tce-workload"
+  export KUBECONFIG=${HOME}/.kube/config-${WKLD_CLUSTER_NAME}
+  tanzu cluster kubeconfig get ${WKLD_CLUSTER_NAME} --admin
+  kubectl config use-context ${WKLD_CLUSTER_NAME}-admin@${WKLD_CLUSTER_NAME}
+  kubectl get nodes -A
 ```
+The workload cluster kubeconfig file `${HOME}/.kube/config-${WKLD_CLUSTER_NAME}` is created during the install.
+
+If you need to recapture the workload cluster’s kubeconfig, execute the following commands:
+
+```bash 
   export WKLD_CLUSTER_NAME="tce-workload"
   tanzu cluster kubeconfig get ${WKLD_CLUSTER_NAME} --admin
   kubectl config use-context ${WKLD_CLUSTER_NAME}-admin@${WKLD_CLUSTER_NAME}
@@ -287,6 +321,24 @@ Please update [Tanzu Community Edition - Build Variable Definition](scripts/00-t
   or just:
   export KUBECONFIG=${HOME}/.kube/config-${WKLD_CLUSTER_NAME}
   kubectl get nodes -A
+```
 
-  Note: ${HOME}/.kube/config-${WKLD_CLUSTER_NAME} is created during the install
+#### Troubleshooting tips:
+
+The bootstrap cluster kubeconfig is located in `${HOME}/tkg/.kube-tkg/tmp` directory.
+To check the progress of the install run:
+
+```bash 
+export KUBECONFIG=`ls /home/tkg/.kube-tkg/tmp/config_*`
+kubectl get pods,deployments -A
+```
+
+To recover from a failed deployment, wipe all previous TCE configurations and reset the environment execute the following commands:
+
+```bash
+# Docker Cleanup - Stop all existing containers, remove containers, prune all existing volumes
+./34-docker-cleanup.sh
+
+# Wipe all previous TCE configurations, Reset Environment and Install Tanzu Community Edition
+./33-install-tce.sh
 ```

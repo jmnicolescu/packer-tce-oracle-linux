@@ -113,10 +113,12 @@ export NODE_OS_VERSION="3"
 # export NODE_OS_NAME="ubuntu"
 # export NODE_OS_VERSION="20.04"
 
-# Oracle Linux / Ubuntu
+# Obtain current IP for Oracle Linux / Ubuntu 
 export MY_IP_ADDRESS=`ifconfig ens192 | grep 'inet ' | awk '{print $2}'`
+# Optional set a static IP for the custom Linux VM
+export MY_STATIC_IP="192.168.111.128"
 export MY_DOMAIN_NAME="flexlab.local"
 
-# Photon OS
+# Obtain current IP for Photon OS
 # export MY_IP_ADDRESS=`ifconfig eth0 | grep '192.168.' | awk '{print $2}' | cut -d ":" -f2`
 # export MY_DOMAIN_NAME="flexlab.local"

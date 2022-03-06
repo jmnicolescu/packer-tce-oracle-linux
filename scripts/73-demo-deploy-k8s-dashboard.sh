@@ -11,14 +11,13 @@
 
 source ${HOME}/scripts/00-tce-build-variables.sh
 
-if [ ! -f ${HOME}/.kube/config-tce-workload ]; then
-    echo "File: ${HOME}/.kube/config-tce-workload missing ..."
+if [ ! -f ${HOME}/.kube/config-${WKLD_CLUSTER_NAME} ]; then
+    echo "File: ${HOME}/.kube/config-${WKLD_CLUSTER_NAME} missing ..."
     echo "Exiting ..."
     exit 1
 fi
 
-export KUBECONFIG=${HOME}/.kube/config-tce-workload
-kubectl config use-context tce-workload-admin@tce-workload
+export KUBECONFIG=${HOME}/.kube/config-${WKLD_CLUSTER_NAME}
 
 echo "Deploy Kubernetes dashboard, apply the manifest"
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
@@ -77,6 +76,6 @@ echo "--------------------------------------------------------------------------
 kubectl get secret -n kubernetes-dashboard $(kubectl get serviceaccount admin-user -n kubernetes-dashboard -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode
 echo "------------------------------------------------------------------------------"
 
-## To remove the kubernetes dashboard
+## To remove the kubernetes dashboard execute the following commands:
 ## kubectl delete --all  deployments,services,replicasets --namespace=kubernetes-dashboard
 ## kubectl delete namespace kubernetes-dashboard
