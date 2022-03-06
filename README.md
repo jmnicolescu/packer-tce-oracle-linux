@@ -335,12 +335,14 @@ If you need to recapture the workload cluster’s kubeconfig, execute the follow
 
 ## 4. Troubleshooting tips:
 
-The bootstrap cluster kubeconfig is located in `${HOME}/tkg/.kube-tkg/tmp` directory.
+The bootstrap cluster kubeconfig is located in `${HOME}/.kube-tkg/tmp` directory.
 To check the progress of the install run:
 
 ```bash 
-export KUBECONFIG=`ls /home/tkg/.kube-tkg/tmp/config_*`
+export KUBECONFIG=`ls ${HOME}/.kube-tkg/tmp/config_*`
 kubectl get pods,deployments -A
+kubectl get kubeadmcontrolplane,machine,machinedeployment -A
+kubectl get events -A
 ```
 
 To recover from a failed deployment, wipe all previous TCE configurations and reset the environment execute the following commands:
