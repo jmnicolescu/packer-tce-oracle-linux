@@ -89,11 +89,13 @@ Tanzu Community Edition deployment options:
 
 Note: Tanzu Community Edition, kubectl version and the matching Photon v3 Kubernetes OVA version:
 
-1. tce v1.9.0  -->>  kubectl v1.21.2  -->> Photon v3 Kubernetes v1.21.2 OVA (photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova)
+1. Current version: tce 0.10.0 -->>  kubectl v1.21.5  -->>  Photon v3 Kubernetes v1.21.5 OVA (photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova)
+    - [Download OVA for Tanzu Community Edition 0.10.0](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-0100)
+
+2. Previous version: tce v1.9.0  -->>  kubectl v1.21.2  -->> Photon v3 Kubernetes v1.21.2 OVA (photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova)
     - [Download OVA for Tanzu Community Edition 0.9.0](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-090)
 
-2. tce 0.10.0 -->>  kubectl v1.21.5  -->>  Photon v3 Kubernetes v1.21.5 OVA (photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova)
-    - [Download OVA for Tanzu Community Edition 0.9.0](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-0100)
+
 
 
 ## 1. Building the custom Linux VM 
