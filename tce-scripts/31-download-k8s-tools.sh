@@ -1,10 +1,9 @@
 #!/bin/bash -eu
 
 #--------------------------------------------------------------------------------------
-# Download Tanzu Community Edition [ 31-tce-download-tanzu.sh ]
+# Tanzu Community Edition / Tanzu Kubernetes Grid [ 31-download-k8s-tools.sh ]
 #
 # Download pages:
-# https://github.com/vmware-tanzu/community-edition/releases
 # https://www.downloadkubernetes.com/
 # https://octant.dev/
 #
@@ -12,25 +11,10 @@
 #--------------------------------------------------------------------------------------
 
 echo "#--------------------------------------------------------------"
-echo "# Starting 31-tce-download-tanzu.sh"
+echo "# Starting 31-download-k8s-tools.sh"
 echo "#--------------------------------------------------------------"
 
-source ${HOME}/scripts/00-tce-build-variables.sh
-
-#--------------------------------------------------------------------------------------
-# Download and Install Tanzu Community Edition
-#--------------------------------------------------------------------------------------
-
-# Download and Install Tanzu Community Edition
-
-echo "Download and Install Tanzu Community Edition release ${TCE_VERSION}"
-curl -LO https://github.com/vmware-tanzu/community-edition/releases/download/v${TCE_VERSION}/tce-linux-amd64-v${TCE_VERSION}.tar.gz
-tar xzvf tce-linux-amd64-v${TCE_VERSION}.tar.gz 
-
-# Copy TCE to tce user home directory
-cp tce-linux-amd64-v${TCE_VERSION}.tar.gz  /home/tce/tce-linux-amd64-v${TCE_VERSION}.tar.gz
-chown tce:tce /home/tce/tce-linux-amd64-v${TCE_VERSION}.tar.gz
-su - tce -c "cd /home/tce ; tar xzvf tce-linux-amd64-v${TCE_VERSION}.tar.gz"
+source ${HOME}/scripts/00-tkg-build-variables.sh
 
 #--------------------------------------------------------------------------------------
 # Download and Install kubectl, kind, Octant and Helm 3
@@ -40,7 +24,9 @@ su - tce -c "cd /home/tce ; tar xzvf tce-linux-amd64-v${TCE_VERSION}.tar.gz"
 
 echo "Download and install kubectl version ${K8S_VERSION}"
 curl -LO https://dl.k8s.io/release/v${K8S_VERSION}/bin/linux/amd64/kubectl
+install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl-${K8S_VERSION}
 install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
 
 # Download and install kind
 
@@ -55,14 +41,13 @@ curl -LO https://github.com/vmware-tanzu/octant/releases/download/v${OCTANT_VERS
 tar xzvf octant_${OCTANT_VERSION}_Linux-64bit.tar.gz
 install -o root -g root -m 0755 octant_${OCTANT_VERSION}_Linux-64bit/octant /usr/local/bin/octant
 
-rm -f /home/tce/tce-linux-amd64-v${TCE_VERSION}.tar.gz
-rm -f tce-linux-amd64-v${TCE_VERSION}.tar.gz kubectl kind-linux-amd64 octant_${OCTANT_VERSION}_Linux-64bit.tar.gz
+rm -f kubectl kind-linux-amd64 octant_${OCTANT_VERSION}_Linux-64bit.tar.gz
 
 # Download and Install Helm 3
 
 echo "Download and install Helm 3"
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 755 get_helm.sh
+chmod 700 get_helm.sh
 ./get_helm.sh
 
 # Download and install Carvel tools
@@ -72,4 +57,4 @@ curl -fsSL -o carvel_tools_install.sh https://carvel.dev/install.sh
 chmod 755 carvel_tools_install.sh
 ./carvel_tools_install.sh
 
-echo "Done 31-tce-download-tanzu.sh"
+echo "Done 31-download-k8s-tools.sh"

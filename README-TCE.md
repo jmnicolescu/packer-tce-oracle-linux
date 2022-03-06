@@ -47,8 +47,8 @@ Tanzu Community Edition deployment options:
 #### Tanzu Community Edition component versions:
 
 
-1. Tanzu Community Edition    v0.10.0-rc.2
-2. kubectl                    v1.21.2
+1. Tanzu Community Edition    v0.10.0
+2. kubectl                    v1.21.5
 3. Kubernetes Node OS OVA     photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
 
 
@@ -66,18 +66,35 @@ Tanzu Community Edition deployment options:
   │   ├── controller-21.1.2-9124.ova 
   │   ├── photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
   │ 
-  └── scripts                                               <-- custom install scripts
+  ├── scripts                                               <-- custom install scripts
+  │ 
+  └─── tce                                                 
+   <-- Tanzu Community Edition 0.10.0
+      └── tce-linux-amd64-v0.10.0.tar.gz
 ```
 
 #### Software Requirements:
 
-1. ISO: OracleLinux-R7-U9-Server-x86_64-dvd.iso
+1. Oracle Linux R7 ISO: OracleLinux-R7-U9-Server-x86_64-dvd.iso
     - [Download Oracle Linux R7 Installation Media](https://yum.oracle.com/ISOS/OracleLinux/OL7/u9/x86_64/OracleLinux-R7-U9-Server-x86_64-dvd.iso)
-    - Copy OracleLinux-R7-U9-Server-x86_64-dvd.iso to the iso directory.
+    - copy OracleLinux-R7-U9-Server-x86_64-dvd.iso to the iso directory.
 
-2. OVA: photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova
-    - [Download Kubernetes node OS OVA](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-090)
-    - Copy photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova to the ova directory
+2. Photon v3 Kubernetes v1.21.5 OVA: photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova
+    - [Download Photon v3 Kubernetes v1.21.5 OVA](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-0100)
+    - copy photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova to the ova directory
+
+3. Tanzu Community Edition 0.10.0: 
+    - [Download Tanzu Community Edition 0.10.0](https://github.com/vmware-tanzu/community-edition/releases/download/v0.10.0/tce-linux-amd64-v0.10.0.tar.gz)
+    - copy tce-linux-amd64-v0.10.0.tar.gz to tce directory
+
+
+Note: Tanzu Community Edition, kubectl version and the matching Photon v3 Kubernetes OVA version:
+
+1. tce v1.9.0  -->>  kubectl v1.21.2  -->> Photon v3 Kubernetes v1.21.2 OVA (photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova)
+    - [Download OVA for Tanzu Community Edition 0.9.0](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-090)
+
+2. tce 0.10.0 -->>  kubectl v1.21.5  -->>  Photon v3 Kubernetes v1.21.5 OVA (photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova)
+    - [Download OVA for Tanzu Community Edition 0.9.0](https://customerconnect.vmware.com/downloads/get-download?downloadGroup=TCE-0100)
 
 
 ## 1. Building the custom Linux VM 
@@ -199,7 +216,7 @@ cd scripts
 ./70-demo-deploy-metallb.sh
 
 # Deploy sample demo applications including Fluent Bit.
-./71-demo-deploy-web-apps.sh
+./71-demo-deploy-assembly-webapp.sh
 
 ```
 
@@ -234,7 +251,7 @@ sudo ./30-update-etc-hosts.sh
 ./70-demo-deploy-metallb.sh
 
 # Deploy demo application: assembly-webapp
-./71-demo-deploy-web-apps.sh
+./71-demo-deploy-assembly-webapp.sh
 
 # Install Fluent Bit using TCE Tanzu Packages
 ./72-demo-tce-tanzu-packages.sh
@@ -278,7 +295,7 @@ sudo ./30-update-etc-hosts.sh
 ./63-nsx-alb-deploy-workload.sh
 
 # Deploy demo application: assembly-webapp
-./71-demo-deploy-web-apps.sh
+./71-demo-deploy-assembly-webapp.sh
 
 # Install Fluent Bit using TCE Tanzu Packages
 ./72-demo-tce-tanzu-packages.sh

@@ -70,19 +70,19 @@ build {
 
   provisioner "shell" {
     scripts = [
-      "scripts/10-update-certificates.sh",
-      "scripts/11-oraclelinux-settings.sh",
-      "scripts/12-oraclelinux-docker.sh",
-      "scripts/14-install-hashicorp.sh",
-      "scripts/15-install-govc.sh",
-      "scripts/16-install-nmon.sh",
-      "scripts/17-install-password-store.sh",
-      "scripts/19-user-settings.sh",
-      "scripts/20-oraclelinux-cleanup.sh",
-      "scripts/21-install-ntp-client.sh",
-      "scripts/22-install-postfix.sh",
-      # "scripts/27-install-powershell.sh",
-      "scripts/31-tce-download-tanzu.sh"
+      "tce-scripts/10-update-certificates.sh",
+      "tce-scripts/11-oraclelinux-settings.sh",
+      "tce-scripts/12-oraclelinux-docker.sh",
+      "tce-scripts/14-install-hashicorp.sh",
+      "tce-scripts/15-install-govc.sh",
+      "tce-scripts/16-install-nmon.sh",
+      "tce-scripts/17-install-password-store.sh",
+      "tce-scripts/19-user-settings.sh",
+      "tce-scripts/20-oraclelinux-cleanup.sh",
+      "tce-scripts/21-install-ntp-client.sh",
+      "tce-scripts/22-install-postfix.sh",
+      # "tce-scripts/27-install-powershell.sh",
+      "tce-scripts/31-download-k8s-tools.sh"
     ]
   }
   
@@ -91,9 +91,15 @@ build {
     destination = "/home/tce/ova"
   }
 
+  provisioner "file" {
+    sources     = ["tce"]
+    destination = "/home/tce/tce"
+  }
+
   provisioner "shell" {
     inline = [
       "chown -R tce:tce /home/tce/ova",
+      "chown -R tce:tce /home/tce/tce",
       "su - tce -c /home/tce/scripts/33-tce-install.sh",
       "su - tce -c /home/tce/scripts/36-configure-password-store.sh"
     ]

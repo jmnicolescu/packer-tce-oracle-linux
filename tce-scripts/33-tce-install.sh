@@ -21,14 +21,23 @@ fi
 rm -rf ${HOME}/.kube-tkg ${HOME}/.kube
 rm -rf ${HOME}/.tanzu ${HOME}/.config/tanzu  ${HOME}.cache/tanzu
 
+#--------------------------------------------------------------------------------------
 # Install Tanzu Community Edition
+#--------------------------------------------------------------------------------------
+
 echo "Installing Tanzu Community Edition from ${HOME}/tce-linux-amd64-v${TCE_VERSION}"
-cd ${HOME}/tce-linux-amd64-v${TCE_VERSION}
+cd ${HOME}/tce
+tar xzvf tce-linux-amd64-v${TCE_VERSION}.tar.gz
+
+cd ${HOME}/tce/tce-linux-amd64-v${TCE_VERSION}
 ./uninstall.sh
 ./install.sh
 
-# Checking Tanzu version
+echo "Checking Tanzu Community Edition version version"
 tanzu version
 tanzu plugin list
+
+# Making sure that we are using the correct version of kubectl
+sudo cp /usr/local/bin/kubectl-${K8S_VERSION} /usr/local/bin/kubectl
 
 echo "Done 33-tce-install.sh"

@@ -31,8 +31,8 @@ fi
 export NETWORK_TANZU_MANAGEMENT="tanzu-management"
 export NETWORK_TANZU_WORKLOAD="tanzu-workload"
 
-export TCE_VERSION="0.10.0-rc.2"
-export K8S_VERSION="1.21.2"
+export TCE_VERSION="0.10.0"
+export K8S_VERSION="1.21.5"
 export KIND_VERSION="0.11.1"
 export OCTANT_VERSION="0.25.0"
 
@@ -100,8 +100,8 @@ export NSXALB_AVI_MANAGEMENT_CLUSTER_VIP_NETWORK_NAME=${NETWORK_TANZU_WORKLOAD}
 export NSXALB_AVI_MANAGEMENT_CLUSTER_VIP_NETWORK_CIDR="192.168.131.0/24"
 
 # K8s node VM settings for Photon OS
-export OVA_VM_NAME="photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721"
-export OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova"
+export OVA_VM_NAME="photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010"
+export OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova"
 export OVA_JSON_FILE="${HOME}/ova/kubernetes-node-ova-specs.json"
 export NODE_OS_NAME="photon"
 export NODE_OS_VERSION="3"
