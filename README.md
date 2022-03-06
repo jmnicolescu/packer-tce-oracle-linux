@@ -80,7 +80,7 @@ Tanzu Community Edition deployment options:
     - Copy photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova to the ova directory
 
 
-#### Building the custom Linux VM 
+## 1. Building the custom Linux VM 
 
 Configuration file used for building the custom Linux VM: `ol7.pkrvars.hcl`
 
@@ -155,7 +155,7 @@ To deploy the custom Oracle Linux R7 VirtualBox VM in the OVF format run the fol
 packer build -var-file=ol7.pkrvars.hcl ol7-virtualbox.pkr.hcl
 ```
 
-#### TCE installation and cluster configuration
+## 2. TCE installation and cluster configuration
 
 Configuration file used for TCE deployment: `scripts/00-tce-build-variables.sh`
 
@@ -327,7 +327,7 @@ If you need to recapture the workload cluster’s kubeconfig, execute the follow
   kubectl get nodes -A
 ```
 
-#### Troubleshooting tips:
+## 4. Troubleshooting tips:
 
 The bootstrap cluster kubeconfig is located in `${HOME}/tkg/.kube-tkg/tmp` directory.
 To check the progress of the install run:
