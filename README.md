@@ -233,8 +233,11 @@ sudo ./30-update-etc-hosts.sh
 # Deploy Metallb Load Balancer
 ./70-demo-deploy-metallb.sh
 
-# Deploy sample demo applications including Fluent Bit
+# Deploy demo application: assembly-webapp
 ./71-demo-deploy-web-apps.sh
+
+# Install Fluent Bit using TCE Tanzu Packages
+./72-demo-tce-tanzu-packages.sh
 
 # Deploy Kubernetes Dashboard
 ./73-demo-deploy-k8s-dashboard.sh
@@ -274,11 +277,14 @@ sudo ./30-update-etc-hosts.sh
 # Deploy a Workload Cluster to vSphere using NSX ALB
 ./63-nsx-alb-deploy-workload.sh
 
-# Deploy sample demo applications including Fluent Bit
+# Deploy demo application: assembly-webapp
 ./71-demo-deploy-web-apps.sh
 
+# Install Fluent Bit using TCE Tanzu Packages
+./72-demo-tce-tanzu-packages.sh
+
 # Deploy Kubernetes Dashboard
-./73-demo-deploy-k8s-dashboard
+./73-demo-deploy-k8s-dashboard.sh
 
 ```
 

@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 #--------------------------------------------------------------------------
-# Tanzu Community Edition - Install Fluent Bit using Tanzu Packages in TCE. 
+# Tanzu Community Edition - Install Fluent Bit using TCE Tanzu Packages. 
 # juliusn - Sun Dec  5 08:48:39 EST 2021 - first version
 #
 # Reference:
