@@ -68,8 +68,7 @@ Tanzu Community Edition deployment options:
   │ 
   ├── scripts                                               <-- custom install scripts
   │ 
-  └─── tce                                                 
-   <-- Tanzu Community Edition 0.10.0
+  └─── tce                                                  <-- Tanzu Community Edition 0.10.0
       └── tce-linux-amd64-v0.10.0.tar.gz
 ```
 
