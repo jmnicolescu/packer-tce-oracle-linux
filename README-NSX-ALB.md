@@ -4,28 +4,24 @@
 
 #### Download the software
 
-```
-    Download VMware NSX Advanced Load Balancer
-    https://customerconnect.vmware.com/en/downloads/info/slug/infrastructure_operations_management/vmware_tanzu_kubernetes_grid/1_x
-    
-```
+ Download VMware NSX Advanced Load Balancer
+ https://customerconnect.vmware.com/en/downloads/info/slug/infrastructure_operations_management/vmware_tanzu_kubernetes_grid/1_x
+
 
 #### Documentation
 
-```
-    VMware NSX Advanced Load Balancer Documentation
-    https://docs.vmware.com/en/VMware-NSX-Advanced-Load-Balancer/index.html
+1. VMware NSX Advanced Load Balancer Documentation
+https://docs.vmware.com/en/VMware-NSX-Advanced-Load-Balancer/index.html
 
-    Avi Documentation
-    https://avinetworks.com/docs/
-    
-```
+2. Avi Documentation
+https://avinetworks.com/docs/
+
 
 #### Network Topology
 
-```
 NSX ALB topology - Two Network Configuratio - Separate Management Network, Combined Workload Network and Frontend/VIP Network.
 
+```bash
 VLAN Configuration
       VLAN ID: 130   VLAN NAME: "tanzu-management"    CIDR: 192.168.130.0/24
       VLAN ID: 131   VLAN NAME: "tanzu-workload"      CIDR: 192.168.131.0/24
@@ -49,16 +45,14 @@ NSX ALB Workload/VIP Network:
 
 #### Deploy NSX Advanced Load Balancer OVA
 
-``` 1. Set NSX ALB specs in the configuration 00-tce-build-variables.sh 
-    2. Run 60-nsx-alb-deploy-avi-ova.sh script to deploy NSX Advanced Load Balancer
-```
+1. Set NSX ALB specs in the configuration 00-tce-build-variables.sh 
+2. Run 60-nsx-alb-deploy-avi-ova.sh script to deploy NSX Advanced Load Balancer
+
 
 #### Controller Configuration
 
-```
-    Power on the Controller VM. Wait 10 minutes and access the Controller IP in the Browser. 
-    For the admin username choose a password. Email is optional.
-```
+Power on the Controller VM. Wait 10 minutes and access the Controller IP in the Browser. 
+For the admin username choose a password. Email is optional.
 
 #### 1. Initial Controller Setup [ Wecome Screen ]
 

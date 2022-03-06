@@ -30,11 +30,11 @@
 
     Note: Your PUBLIC_KEY_ID is 91E83BF2
 
-#### Initializing the Password Store using the PUBLIC_KEY_ID
+#### 2. Initializing the Password Store using the PUBLIC_KEY_ID
 
     pass init "91E83BF2"
 
-#### Store vCenter secrets by using the pass insert command:
+#### 3. Store vCenter secrets by using the pass insert command:
 
     pass insert provider_vcenter_hostname
     pass insert provider_vcenter_username
@@ -51,7 +51,7 @@
     echo 'vcenter_password' | pass insert provider_vcenter_password -e
 
 
-#### Set your environment variables - Read secrets from pass and set them as environment variables
+#### 4. Set your environment variables - Read secrets from pass and set them as environment variables
 
     export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
     export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
