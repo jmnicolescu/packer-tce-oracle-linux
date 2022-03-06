@@ -4,13 +4,13 @@
 
 #### References:
 
-```
+
     PASS - password store
     https://www.passwordstore.org/
     
     PASS - password store - man page
     https://git.zx2c4.com/password-store/about/
-```
+
 
 ### Steps to get PASS configured
 
