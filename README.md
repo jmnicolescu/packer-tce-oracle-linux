@@ -87,29 +87,33 @@ Configuration file used for building the custom Linux VM: `ol7.pkrvars.hcl`
 Before initiating the build you'll need to set Packer build environment:
 
 The following environment variables are required by the Packer build script:
+`
   1. PKR_VAR_vcenter_hostname       <-- vCenter host name
   2. PKR_VAR_vcenter_username       <-- vCenter user
   3. PKR_VAR_vcenter_password       <-- vCenter password
   4. PKR_VAR_vm_access_username     <-- user to SSH to the custom VM
   5. PKR_VAR_vm_access_password     <-- password for the SSH user
+`
 
 We'll manage all the above environment variables with GPG and PASS.
 PASS is the standard unix password manager. Please refer to [Manage Passwords With GPG and PASS](README-PASS.md) for addition info about setting up PASS.
 
 1. Insert the variables in the password store
+`
   - pass insert provider_vcenter_hostname
   - pass insert provider_vsphere_user
   - pass insert provider_vsphere_password
   - pass insert vm_access_username
   - pass insert vm_access_password
-
+`
 2. Read the secrets from pass and set them as environment variables
+`
   - export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
   - export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
   - export PKR_VAR_vcenter_password=$(pass provider_vcenter_password)
   - export PKR_VAR_vm_access_username=$(pass vm_access_username)
   - export PKR_VAR_vm_access_password=$(pass vm_access_password)
-
+`
 In addition, we'll need to edit Packer Variable definition file [ol7.pkrvars.hcl](ol7.pkrvars.hcl)  to set the rest of vCenter variables required for the build.
 
 
