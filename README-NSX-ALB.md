@@ -4,8 +4,9 @@
 
 #### Download the software
 
-  Download VMware NSX Advanced Load Balancer
-  https://customerconnect.vmware.com/en/downloads/info/slug/infrastructure_operations_management/vmware_tanzu_kubernetes_grid/1_x
+Download VMware NSX Advanced Load Balancer from the following URL:
+
+https://customerconnect.vmware.com/en/downloads/info/slug/infrastructure_operations_management/vmware_tanzu_kubernetes_grid/1_x
 
 
 #### Documentation
