@@ -4,7 +4,6 @@
 
 #### References:
 
-
     PASS - password store
     https://www.passwordstore.org/
     
