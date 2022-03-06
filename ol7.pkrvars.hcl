@@ -11,11 +11,16 @@
 # Set your environment variables, or read the secrets from pass 
 # and set them as environment variables
 #
+# -- environment variables used to SSH to the custom Linux VM
+# export PKR_VAR_vm_access_username=$(pass vm_access_username)
+# export PKR_VAR_vm_access_password=$(pass vm_access_password)
+#
+# -- environment variables needed if deploying to a vCenter Server --
 # export PKR_VAR_vcenter_hostname=$(pass provider_vcenter_hostname)
 # export PKR_VAR_vcenter_username=$(pass provider_vcenter_username)
 # export PKR_VAR_vcenter_password=$(pass provider_vcenter_password)
-# export PKR_VAR_vm_access_username=$(pass vm_access_username)
-# export PKR_VAR_vm_access_password=$(pass vm_access_password)
+#
+# -- environment variables needed if deploying to an ESXi host --
 # export PKR_VAR_esx_remote_hostname=$(pass esx_remote_hostname)
 # export PKR_VAR_esx_remote_username=$(pass esx_remote_username)
 # export PKR_VAR_esx_remote_password=$(pass esx_remote_password)

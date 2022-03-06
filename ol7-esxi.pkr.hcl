@@ -69,7 +69,7 @@ build {
   ]
   
   provisioner "file" {
-    sources     = ["scripts"]
+    sources     = ["tce-scripts"]
     destination = "/root/scripts"
   }
 
@@ -91,13 +91,8 @@ build {
       "scripts/20-oraclelinux-cleanup.sh",
       "scripts/21-install-ntp-client.sh",
       "scripts/22-install-postfix.sh",
-      ##
-      ## Uncomment the following 3 scripts to enable GNOME (GUI) and install MS Code and VNC server.      
-      ##
-      ## "scripts/23-install-gnome.sh",
-      ## "scripts/25-install-mscode.sh",
-      ## "scripts/28-install-vnc.sh",
-      "scripts/31-download-tanzu-tce.sh"
+      # "scripts/27-install-powershell.sh",
+      "scripts/31-tce-download-tanzu.sh"
     ]
   }
   
@@ -109,7 +104,7 @@ build {
   provisioner "shell" {
     inline = [
       "chown -R tce:tce /home/tce/ova",
-      "su - tce -c /home/tce/scripts/33-install-tce.sh",
+      "su - tce -c /home/tce/scripts/33-tce-install.sh",
       "su - tce -c /home/tce/scripts/36-configure-password-store.sh"
     ]
   }
