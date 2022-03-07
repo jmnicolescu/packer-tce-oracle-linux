@@ -193,6 +193,16 @@ Setting the TCE build environment:
 With the exception of vCenter credentials, all TCE Build Variable are set in 00-tce-build-variables.sh
 Please review and update [Tanzu Community Edition - Build Variable Definition](scripts/00-tce-build-variables.sh) file.
 
+
+#### Network Considerations
+
+Kube-Vip is used solely by the cluster’s API server.
+
+To load-balance workloads on vSphere, there are two deployment options available:
+1. TKG deployment using Metallb Load Balancer
+2. TKG deployment using NSX Advanced Load Balancer
+
+
 #### TCE Deployment option #1 - TCE deployment to Docker
 
 Login to the Linux built VM as user tce, chnage directory to scripts and run the following scripts:
@@ -220,7 +230,7 @@ cd scripts
 
 ```
 
-#### TCE Deployment option #2 - TCE deployment to VMware vSphere
+#### TCE Deployment option #2 - TCE deployment to VMware vSphere using Metallb to load-balance workloads.
 
 Login to the Linux VM as user tce, chnage directory to scripts and run the following scripts:
 
@@ -261,7 +271,7 @@ sudo ./30-update-etc-hosts.sh
 
 ```
 
-#### TCE Depolyment option #3 - TCE deployment to VMware vSphere using NSX Advanced Load Balancer
+#### TCE Depolyment option #3 - TCE deployment to VMware vSphere using NSX Advanced Load Balancer to load-balance workloads.
 
 Login to the Linux VM as user tce, chnage directory to scripts and run the following scripts:
   

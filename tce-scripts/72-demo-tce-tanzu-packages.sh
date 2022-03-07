@@ -30,6 +30,10 @@ tanzu package repository get ${REPO_NAME} -o json | jq -r '.[0].status | select 
 
 echo "Sleeping 60 seconds ... wait for packages to be available"
 sleep 60
+
+echo "#--------------------------------------------------------------"
+echo "TKG repository list"
+echo "#--------------------------------------------------------------"
 tanzu package repository list -A
 
 echo "#--------------------------------------------------------------"
@@ -52,4 +56,8 @@ echo "Demo App: Installing fluent-bit -- Fluent Bit is a fast Log Processor and 
 tanzu package available list ${DEMO_FLUENT_BIT_PACKAGE}
 fluentbit_version=$(tanzu package available list ${DEMO_FLUENT_BIT_PACKAGE} -o json | jq -r '.[0].version | select(. !=null)')
 tanzu package install fluent-bit --package-name ${DEMO_FLUENT_BIT_PACKAGE} --version "${fluentbit_version}"
+
+echo "#--------------------------------------------------------------"
+echo "TCE package repository -> Checking installed package list ..."
+echo "#--------------------------------------------------------------"
 tanzu package installed list
