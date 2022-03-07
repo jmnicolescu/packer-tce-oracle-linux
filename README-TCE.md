@@ -23,11 +23,11 @@ Tanzu Community Edition deployment options:
     - Deploy TCE Management Cluster to Docker as the target infrastructure provider 
     - Deploy TCE Workload Cluster
 
-- Deployment #2 - TCE Deployment to vSphere 
+- Deployment #2 - TCE deployment to VMware vSphere using Metallb to load-balance workloads. 
     - Deploy TCE Management Cluster to vSphere as the target infrastructure provider 
     - Deploy TCE Workload Cluster
 
-- Deployment #3 - TCE Deployment to vSphere while using NSX Advanced Load Balancer (NSX ALB)
+- Deployment #3 - TCE deployment to VMware vSphere using NSX Advanced Load Balancer to load-balance workloads.
     - Deploy TCE Management Cluster to vSphere as the target infrastructure provider
     - Deploy TCE Workload Cluster
 
