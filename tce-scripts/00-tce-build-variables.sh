@@ -12,14 +12,14 @@
 #--------------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------
-# Tanzu Community Edition - previous build versions
+# Tanzu Community Edition - previous build component versions
 # TCE_VERSION="0.9.1"
 # K8S_VERSION="1.21.2"
 # OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.2+vmware.1-tkg.2-12816990095845873721.ova"
 #--------------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------
-# Tanzu Community Edition - current build versions
+# Tanzu Community Edition - current build component versions
 # TCE_VERSION="0.10.0"
 # K8S_VERSION="1.21.5"
 # OVA_FILE="${HOME}/ova/photon-3-kube-v1.21.5+vmware.1-tkg.1-15708800623024541119-tce-010.ova"
@@ -81,7 +81,7 @@ export MGMT_VSPHERE_CONTROL_PLANE_ENDPOINT="192.168.131.130"
 export WKLD_VSPHERE_CONTROL_PLANE_ENDPOINT="192.168.131.131"
 
 # METALLB_VIP_RANGE to be defined on TANZU_DEPLOY_NETWORK
-export METALLB_VIP_RANGE="192.168.131.240-192.168.131.250"
+export METALLB_VIP_RANGE="192.168.131.231-192.168.131.240"
 
 # ----------------------------------------------------------------------------------------
 # Deployment Option : Using NSX ALB.

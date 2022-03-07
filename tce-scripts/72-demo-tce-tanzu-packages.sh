@@ -25,9 +25,6 @@ REPO_NAMESPACE="tanzu-package-repo-global"
 echo "Install repository to the [ ${REPO_NAMESPACE} ] namespace"
 echo "Adding TCE package [ ${REPO_NAME} ] repository"
 
-# update older core package repo
-tanzu package repository update tkg-core-repository --namespace ${REPO_NAMESPACE} --url ${REPO_URL}
-
 tanzu package repository add ${REPO_NAME} --namespace ${REPO_NAMESPACE} --url ${REPO_URL}
 tanzu package repository get ${REPO_NAME} -o json | jq -r '.[0].status | select (. != null)'
 
@@ -56,4 +53,3 @@ tanzu package available list ${DEMO_FLUENT_BIT_PACKAGE}
 fluentbit_version=$(tanzu package available list ${DEMO_FLUENT_BIT_PACKAGE} -o json | jq -r '.[0].version | select(. !=null)')
 tanzu package install fluent-bit --package-name ${DEMO_FLUENT_BIT_PACKAGE} --version "${fluentbit_version}"
 tanzu package installed list
-kubectl -n tanzu-system-loggin get all
